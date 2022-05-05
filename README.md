@@ -6,7 +6,8 @@ This code is tested with following system configuration
 - CPU : i7-10750H 
 - CUDA Version: 11.4
 - GPU : RTX 2080 (8Gb)
-- Python=3.8
+- Python == 3.8
+- PyTorch == 1.6
 
 ### Installation
 Install Anaconda (if it does not already exist). Create conda environment and follow these installation instructions.
