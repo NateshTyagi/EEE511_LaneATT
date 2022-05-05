@@ -69,8 +69,47 @@ gdown "https://drive.google.com/uc?id=18alVEPAMBA9Hpr3RDAAchqSj5IxZNRKd"
 tar xf list.tar.gz
 ```
 
-#### Download Pretrained Models
+#### Download Pretrained Models by Authors
 ```bash
 gdown "https://drive.google.com/uc?id=1R638ou1AMncTCRvrkQY6I-11CPwZy23T" # main experiments on TuSimple, CULane and LLAMAS (1.3 GB)
-unzip laneatt_experiments.zip
+unzip laneatt_experiments.zip && rm laneatt_experiments.zip
 ```
+#### Download Trained Models by Team 13
+```bash
+wget https://www.dropbox.com/sh/6zt0li4juw4ki5v/AAA8IDBlU_JOPBgqzVJRTxtQa?dl=0
+unzip our_experiments.zip && rm our_experiments.zip
+```
+#### Training
+```
+python main.py train --exp_dir example --exp_name example --cfg example.yml
+```
+For example, to train LaneATT with the ResNet-34 backbone on TuSimple, run:
+```
+python main.py train --exp_dir our_experiments --exp_name laneatt_r34_tusimple --cfg cfgs/laneatt_tusimple_resnet34.yml
+```
+#### Testing:
+
+```
+python main.py test --exp_dir example --exp_name example --view all
+```
+For example, to evaluate our trained model for LaneATT with the ResNet-34 backbone on TuSimple, run:
+```
+python main.py train --exp_dir our_experiments --exp_name laneatt_r34_tusimple --view all
+```
+This command will evaluate the model saved in the last checkpoint of the experiment `example` (inside `our_experiments`).
+Set `--exp_dir` to `experiments` for evaluating pre-trained models by authors.
+#### Testing on Tempe Dataset:
+
+For example, to evaluate LaneATT with the ResNet-34 backbone on Tempe Dataset, run:
+```
+python main.py train --exp_dir our_experiments --exp_name laneatt_r34_culane  --cfg cfgs/laneatt_tempe_resnet34.yml --view all
+```
+This command will load the model weights trained with ResNet-34 backbone on CuLane Dataset.
+
+#### Ablation Study with No Attention Mechanism:
+
+rename the file `lib/models/laneatt_noatt.py` >> `lib/models/laneatt.py`
+```
+python main.py train --exp_dir our_experiments --exp_name lanenoatt_r18_culane  --cfg cfgs/laneatt_culane_resnet18.yml
+```
+This command will train the no-attention model with ResNet-18 backbone on CuLane Dataset.
